@@ -1,5 +1,8 @@
 fastapi
 uvicorn
 pydantic
-requests
 youtube-transcript-api
+huggingface_hub
+transformers
+torch
+sentencepiece

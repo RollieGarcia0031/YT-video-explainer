@@ -1,29 +1,22 @@
-FROM node:20-bullseye
+FROM python:3.11-slim
 
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    curl
-
-RUN curl -fsSL https://ollama.com/install.sh | sh
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    MODELS_DIR=/models
 
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY backend/requirements.txt ./backend/requirements.txt
+RUN pip install --no-cache-dir -r backend/requirements.txt
 
 COPY backend ./backend
-COPY frontend ./frontend
 
-RUN pip install -r backend/requirements.txt
+RUN mkdir -p /models
 
-WORKDIR /app/frontend
-RUN npm install
-RUN npm run build
+EXPOSE 7860
 
-WORKDIR /app
-
-EXPOSE 3000
-EXPOSE 8000
-EXPOSE 11434
-
-CMD ollama serve & \
-    uvicorn backend.main:app --host 0.0.0.0 --port 8000 & \
-    cd frontend && npm start
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "7860"]

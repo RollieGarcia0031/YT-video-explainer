@@ -4,7 +4,7 @@ import { useState } from "react"
 
 export default function Home() {
 
-  const API = process.env.NEXT_PUBLIC_API_URL
+  const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:7860"
 
   const [url, setUrl] = useState("")
   const [result, setResult] = useState("")
@@ -31,7 +31,7 @@ export default function Home() {
 
       setResult(data.explanation)
 
-    } catch (error) {
+    } catch {
 
       setResult("Error analyzing video.")
 
