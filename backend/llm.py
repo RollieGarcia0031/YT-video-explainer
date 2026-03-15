@@ -19,7 +19,7 @@ def _get_generator():
     )
 
     return pipeline(
-        task="text2text-generation",
+        task="text-generation",
         model=local_model_path,
         tokenizer=local_model_path,
     )
