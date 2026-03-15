@@ -89,3 +89,13 @@ logs
 coverage
 *.coverage
 .cache
+
+# ----------------------------
+# Model files and cache
+# ----------------------------
+models/
+*.bin
+*.safetensors
+.cache/
+huggingface/
+.huggingface/
